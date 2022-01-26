@@ -1,4 +1,4 @@
-using DataFrames, Dates, JSON
+using DataFrames, Dates, JSON, ThreadsX
 
 pathh = "Data/User/Physical Activity/"
 
@@ -9,7 +9,7 @@ println("Types of reads: heart_rate, altitude, calories,")
 ###############################################################################################
 function read_in(fun::Function)
 	f = files[occursin.(Regex(string("^",String(Symbol(fun)))),files)]
-	h = reduce(vcat, [fun(i) for i in f])
+	h = reduce(vcat, ThreadsX.collect(fun(i) for i in f))
 	h = DataFrame(h)
 	h[!,:dateTime] = DateTime.(h.dateTime, dateformat"mm/dd/yy HH:MM:SS") .+ Dates.Year(2000)
   return(h)
