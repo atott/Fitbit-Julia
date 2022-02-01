@@ -41,7 +41,7 @@ function read_in(fun::Function)
 	h[!,:dateTime] = try
 				DateTime.(h.dateTime, dateformat"mm/dd/yy HH:MM:SS") .+ Dates.Year(2000)
 			catch
-				 DateTime.(h.dateTime, dateformat"yyyy-mm-ddTHH:MM:SS") .+ Dates.Year(2000)
+				 DateTime.(h.dateTime, dateformat"yyyy-mm-ddTHH:MM:SS") 
 		 	end
   return(h)
 end
